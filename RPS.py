@@ -1,10 +1,26 @@
-# The example function below keeps track of the opponent's history and plays whatever the opponent played two plays ago. It is not a very good player so you will need to change the code to pass the challenge.
 
 def player(prev_play, opponent_history=[]):
+    if prev_play == "":
+        opponent_history.clear()
+
     opponent_history.append(prev_play)
 
-    guess = "R"
-    if len(opponent_history) > 2:
-        guess = opponent_history[-2]
+    if len(opponent_history) <= 1:
+        return "P"
 
-    return guess
+    last_ten = opponent_history[-10:]
+    counts = {
+        "R": last_ten.count("R"),
+        "P": last_ten.count("P"),
+        "S": last_ten.count("S")
+    }
+
+    prediction = max(counts, key=counts.get)
+
+    counter = {
+        "R": "P",
+        "P": "S",
+        "S": "R"
+    }
+
+    return counter[prediction]
